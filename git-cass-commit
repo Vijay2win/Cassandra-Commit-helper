@@ -1,0 +1,31 @@
+#!/bin/bash
+
+FILE=/tmp/git-commit-message;
+
+# Add Message to be committed.
+echo "Type Your Commit Message"
+read message
+
+echo "Type the Patch Reviewer"
+read reviewed
+
+echo "Type the JIRA Number"
+read jira
+
+echo $message > $FILE
+echo "patch by Vijay; reviewed by $reviewed for CASSANDRA-$jira" >> $FILE
+
+# Add new files into Git
+git add src/java test/ examples/ tools/ bin/ conf/ 
+
+# Commit the local file set
+git commit -F $FILE /src /test
+
+# Git open the last message
+# git commit --amend
+
+# Git log the last message to show to the user
+git log -n 1
+
+# Clean-up
+rm -Rf $FILE
